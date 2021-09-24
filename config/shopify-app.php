@@ -143,7 +143,7 @@ return [
     |
     */
 
-    'api_version' => env('SHOPIFY_API_VERSION', '2021-01'),
+    'api_version' => '2021-07',
 
     /*
     |--------------------------------------------------------------------------
@@ -176,7 +176,7 @@ return [
     |
     */
 
-    'api_scopes' => env('SHOPIFY_API_SCOPES', 'write_script_tags,read_script_tags,read_themes,write_themes,write_content,read_content,read_customers,write_customers,read_products,write_products,read_checkouts'),
+    'api_scopes' => env('SHOPIFY_SCOPE', 'write_script_tags,read_script_tags,read_themes,write_themes,write_content,read_content,read_customers,write_customers,read_products,write_products,read_checkouts'),
 
     /*
     |--------------------------------------------------------------------------
@@ -320,13 +320,27 @@ return [
     */
 
     'webhooks' => [
-        // [
-        //     'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'ORDERS_CREATE'),
-        //     'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', 'https://some-app.com/webhook/orders-create')
-        // ], [
-        //     'topic' => env('SHOPIFY_WEBHOOK_2_TOPIC', 'APP_PURCHASES_ONE_TIME_UPDATE'),
-        //     'address' => env('SHOPIFY_WEBHOOK_2_ADDRESS', 'https://some-app.com/webhook/purchase'),
-        // ]
+        /* */
+        [
+            'topic' => 'APP_UNINSTALLED',
+            'address' => 'https://testapp5.snigre.com/webhook/app-uninstalled'
+        ],
+        [
+            'topic' => 'SHOP_UPDATE',
+            'address' => 'https://testapp5.snigre.com/webhook/shop-update',
+        ],
+        [
+            'topic' => 'PRODUCTS_CREATE',
+            'address' => 'https://testapp5.snigre.com/webhook/products-create'
+        ],
+        [
+            'topic' => 'PRODUCTS_UPDATE',
+            'address' => 'https://testapp5.snigre.com/webhook/products-update'
+        ],
+        [
+            'topic' => 'PRODUCTS_DELETE',
+            'address' => 'https://testapp5.snigre.com/webhook/products-delete'
+        ]
     ],
 
     /*
@@ -339,11 +353,11 @@ return [
     */
 
     'scripttags' => [
-        // [
-        //     'src' => env('SHOPIFY_SCRIPTTAG_1_SRC', 'https://some-app.com/some-controller/js-method-response'),
-        //     'event' => env('SHOPIFY_SCRIPTTAG_1_EVENT', 'onload'),
-        //     'display_scope' => env('SHOPIFY_SCRIPTTAG_1_DISPLAY_SCOPE', 'online_store')
-        // ],
+        [
+            'src' => env('APP_URL'). '/scripttags/dummy.js',
+            'event' => 'onload',
+            'display_scope' => env('SHOPIFY_SCRIPTTAG_1_DISPLAY_SCOPE', 'online_store')
+        ],
     ],
 
     /*

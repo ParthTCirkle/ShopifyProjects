@@ -1,0 +1,133 @@
+<?php
+
+return [
+    'shopify_api_key' => env('SHOPIFY_API_KEY'),
+    'shopify_api_secret' => env('SHOPIFY_API_SECRET'),
+    'shopify_scope' => env('SHOPIFY_SCOPE'),
+    'shopify_api_version' => env('SHOPIFY_API_VERSION'),
+    'app_version' => '4',
+
+    // 'shopify_webhooks' => [
+        // 'app/uninstalled',
+        // 'shop/update',
+
+        // 'products/update',
+        // 'products/create',
+        // 'products/delete',
+
+        // 'customers/create',
+        // 'customers/disable',
+        // 'customers/enable',
+        // 'customers/update',
+
+        // 'orders/cancelled',
+        // 'orders/create',
+        // 'orders/fulfilled',
+        // 'orders/paid',
+        // 'orders/partially_fulfilled',
+        // 'orders/updated',
+        // 'orders/delete',
+        // 'orders/edited',
+
+        // 'subscription_billing_attempts/failure',
+        // 'subscription_billing_attempts/success',
+        // 'carts/create',
+        // 'carts/update',
+        // 'checkouts/create',
+        // 'checkouts/update',
+        // 'checkouts/delete',
+        // 'collections/create',
+        // 'collections/update',
+        // 'collections/delete',
+        // 'collection_listings/add',
+        // 'collection_listings/update',
+        // 'collection_listings/remove',
+        // 'customer_payment_methods/create',
+        // 'customer_payment_methods/revoke',
+        // 'customer_payment_methods/update',
+        // 'customer_groups/create',
+        // 'customer_groups/update',
+        // 'customer_groups/delete',
+        // 'disputes/create',
+        // 'disputes/update',
+        // 'domains/create',
+        // 'domains/destroy',
+        // 'domains/update',
+        // 'draft_orders/create',
+        // 'draft_orders/update',
+        // 'draft_orders/delete',
+        // 'fulfillments/create',
+        // 'fulfillments/update',
+        // 'fulfillment_events/create',
+        // 'fulfillment_events/delete',
+        // 'inventory_items/create',
+        // 'inventory_items/update',
+        // 'inventory_items/delete',
+        // 'inventory_levels/connect',
+        // 'inventory_levels/disconnect',
+        // 'inventory_levels/update',
+        // 'locations/create',
+        // 'locations/update',
+        // 'locations/delete',
+        // 'order_transactions/create',
+        // 'product_listings/add',
+        // 'product_listings/update',
+        // 'product_listings/remove',
+        // 'profiles/create',
+        // 'profiles/update',
+        // 'profiles/delete',
+        // 'refunds/create',
+        // 'locales/create',
+        // 'locales/update',
+        // 'subscription_contracts/create',
+        // 'subscription_contracts/update',
+        // 'tender_transactions/create',
+        // 'themes/create',
+        // 'themes/publish',
+        // 'themes/update',
+        // 'themes/delete',
+    // ],
+
+    'user' => [
+        'status' => [
+            '0' => 'Inactive',
+            '1' => 'Active',
+        ],
+        'status_code' => [
+            'inactive'  => '0',
+            'active'    => '1',
+        ],
+    ],
+
+    'product' => [
+        'status' => [
+            '1' => 'Active',
+            '2' => 'Archived',
+            '3' => 'Draft',
+        ],
+        'status_code' => [
+            'active'    => '1',
+            'archived'  => '2',
+            'draft'     => '3',
+        ],
+    ],
+
+    'charge' => [
+        'status' => [
+            '1' => 'Active',
+            '2' => 'Declined',
+            '3' => 'Expired',
+            '4' => 'Frozen',
+            '5' => 'Cancelled'
+
+        ],
+        'status_code' => [
+            'active'    => '1',
+            'declined'  => '2',
+            'expired'   => '3',
+            'frozen'    => '4',
+            'cancelled' => '5',
+        ],
+    ],
+];
+
