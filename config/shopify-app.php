@@ -129,7 +129,7 @@ return [
     |
     */
 
-    'app_name' => env('SHOPIFY_APP_NAME', 'Shopify App'),
+    'app_name' => env('SHOPIFY_APP_NAME', 'Shopify Laravel Osiset App'),
 
     /*
     |--------------------------------------------------------------------------
@@ -176,7 +176,7 @@ return [
     |
     */
 
-    'api_scopes' => env('SHOPIFY_SCOPE', 'write_script_tags,read_script_tags,read_themes,write_themes,write_content,read_content,read_customers,write_customers,read_products,write_products,read_checkouts'),
+    'api_scopes' => env('SHOPIFY_SCOPE', 'write_script_tags,read_script_tags,read_themes,write_themes,write_content,read_content,read_customers,write_customers,read_products,write_products,read_orders,write_orders'),
 
     /*
     |--------------------------------------------------------------------------
@@ -279,7 +279,7 @@ return [
     |
     */
 
-    'billing_enabled' => (bool) env('SHOPIFY_BILLING_ENABLED', false),
+    'billing_enabled' => (bool) env('SHOPIFY_BILLING_ENABLED', 1),
 
     /*
     |--------------------------------------------------------------------------
@@ -288,7 +288,7 @@ return [
     |
     | Allow a shop use the app in "freemium" mode.
     | Shop will get a `freemium` flag on their record in the table.
-    |
+    |   
     */
 
     'billing_freemium_enabled' => (bool) env('SHOPIFY_BILLING_FREEMIUM_ENABLED', false),

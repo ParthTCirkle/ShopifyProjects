@@ -3,17 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SyncProductJob;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Osiset\ShopifyApp\Services\ChargeHelper;
+use Illuminate\Support\Str;
+
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index($link = null)
     {
+        // dump($link);
         $shop = Auth::user();
+        $limit = 250;
+        $response = $shop->api()->rest('GET', '/admin/api/2021-07/products.json', ['limit' => $limit, 'page_info' => $link]);
+        if ($response['status'] != 200)
+        {
+            abort(401);
+        }
+        // dump($response['status']);
+        $next = $response['link']['next'] ?? null;
+        // dump($response['link']['next']);
+        $previous = $response['link']['previous'] ?? null;
+        // dump($response['link']['previous']);
+        $products = $response['body']['products'];
+        // dd($response['body']['products']);
+
+        return view('product.index', compact('next', 'previous', 'products'));
+
+
         // dd($shop);
         // $shopApi = $shop->api()->rest('GET', '/admin/api/2021-07/shop.json')['body']['shop'];
+        // return $shopApi;
         // dd($shopApi);
 
         // product create
@@ -46,7 +69,16 @@ class ProductController extends Controller
 
         // $result = $shop->api()->rest('delete', '/admin/api/2021-07/products/' . $productCreate->id . '.json', $productData);
         // dd($result);
-        return view('product.index');
+    }
+
+    public function next(Request $request)
+    {
+        dd($request->all());
+    }
+
+    public function previous(Request $request)
+    {
+        dd($request->all());
     }
 
     public function create()
@@ -56,17 +88,16 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-
-
     }
 
     public function productSync()
     {
-        $getStore = Auth::user();
+        $shop = Auth::user();
 
-        SyncProductJob::dispatch($getStore);
-        // return back();
-        // return response()->json("success");
+        SyncProductJob::dispatch($shop);
+
+        return redirect(route('product.index'));
+        // dd('start');
     }
 
     public function edit()

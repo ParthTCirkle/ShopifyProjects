@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 class SyncProductJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $getStore;
+    public $shop;
     public $timeout = 0;
 
     /**
@@ -24,9 +24,9 @@ class SyncProductJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($getStore)
+    public function __construct($shop)
     {
-        $this->getStore = $getStore;
+        $this->shop = $shop;
     }
 
     /**
@@ -36,63 +36,42 @@ class SyncProductJob implements ShouldQueue
      */
     public function handle()
     {
-        // ini_set('max_execution_time', 50000);
         ini_set('memory_limit', '1024M');
-        // set_time_limit(0);
 
         $pageInfo = "";
         $lastPage = false;
-        $totalProduct = 0;
-
+        $limit = 250;
         while (!$lastPage)
         {
-            $url = "https://".$this->getStore->name.config('constant.shopify_api_version')."/products.json?page_info=".$pageInfo."&limit=250";
+            $response = $this->shop->api()->rest('GET', '/admin/api/2021-07/products.json', ['limit' => $limit, 'page_info' => $pageInfo]);
 
-            $getAllProducts = Http::withHeaders([
-                    'Accept'                    =>  'application/json',
-                    'Content-Type'              =>  'application/json',
-                    'X-Shopify-Access-Token'    =>  $this->getStore->password,
-                ])->get($url);
-
-            $apiResponseHeaders = $getAllProducts->headers();
-
-            if (collect($getAllProducts['products'])->count() == 250)
+            if (collect($response['body']['products'])->count() == $limit)
             {
-                $pageInfo = Str::between($apiResponseHeaders['Link'][0], 'page_info=', '>; rel="next"');
-                if (Str::contains($apiResponseHeaders['Link'][0], 'rel="next"'))
-                {
-                }
-                else
-                {
-                    $lastPage = true;
-                }
+                $pageInfo = $response['link']['next'];
             }
             else
             {
                 $lastPage = true;
             }
 
-            // $totalProduct += collect($getAllProducts['products'])->count();
-            // Log::info($totalProduct);
-
-            foreach($getAllProducts['products'] as $product)
+            foreach($response['body']['products'] as $product)
             {
                 Product::updateOrCreate(
                     [
-                        'user_id'               =>  $this->getStore->id,
-                        'product_id'            =>  $product['id'] ?? ' ',
+                        'user_id'               =>  $this->shop->id,
+                        'product_id'            =>  $product->id ?? ' ',
                     ],
                     [
-                        'title'                 =>  $product['title'] ?? ' ',
-                        'description'           =>  $product['body_html'] ?? ' ',
-                        'vendor'                =>  $product['vendor'] ?? ' ',
-                        'type'                  =>  $product['product_type'] ?? ' ',
-                        'handle'                =>  $product['handle'] ?? ' ',
-                        'product_created_at'    =>  date('Y-m-d H:i:s',strtotime($product['created_at'])) ?? ' ',
-                        'product_updated_at'    =>  date('Y-m-d H:i:s',strtotime($product['updated_at'])) ?? ' ',
-                        'status'                =>  config('constant.product.status_code.'.$product['status']),
-                        'tags'                  =>  $product['tags'] ?? ' ',
-                        'image'                 =>  $product['image']['src'] ?? ' '
+                        'title'                 =>  $product->title ?? ' ',
+                        'description'           =>  $product->body_html ?? ' ',
+                        'vendor'                =>  $product->vendor ?? ' ',
+                        'type'                  =>  $product->product_type ?? ' ',
+                        'handle'                =>  $product->handle ?? ' ',
+                        'product_created_at'    =>  date('Y-m-d H:i:s',strtotime($product->created_at)) ?? ' ',
+                        'product_updated_at'    =>  date('Y-m-d H:i:s',strtotime($product->updated_at)) ?? ' ',
+                        'status'                =>  config('constant.product.status_code.'.$product->status),
+                        'tags'                  =>  $product->tags ?? ' ',
+                        'image'                 =>  $product->image->src ?? ' '
                     ]
                 );
             }

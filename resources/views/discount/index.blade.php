@@ -215,20 +215,20 @@
 
 @push('page_script')
     <script>
-        // var createProduct = Button.create(app, {label: 'Create'});
-        // createProduct.subscribe(Button.Action.CLICK, function() {
-        //     app.dispatch(Redirect.toApp({path: '/product/create'}));
-        // });
+        var createProduct = Button.create(app, {label: 'Create'});
+        createProduct.subscribe(Button.Action.CLICK, function() {
+            app.dispatch(Redirect.toApp({path: '/product/create'}));
+        });
 
-        // var syncProduct = Button.create(app, {label: 'Sync Product'});
-        // syncProduct.subscribe(Button.Action.CLICK, function() {
-        //     app.dispatch(Redirect.toApp({path: '/product/sync'}));
-        // });
+        var syncProduct = Button.create(app, {label: 'Sync Product'});
+        syncProduct.subscribe(Button.Action.CLICK, function() {
+            app.dispatch(Redirect.toApp({path: '/product/sync'}));
+        });
 
-        // const breadcrumb = Button.create(app, { label: 'Product' });
-        // breadcrumb.subscribe(Button.Action.CLICK, () => {
-        //     app.dispatch(Redirect.toApp({ path: '/product/create' }));
-        // });
+        const breadcrumb = Button.create(app, { label: 'Product' });
+        breadcrumb.subscribe(Button.Action.CLICK, () => {
+            app.dispatch(Redirect.toApp({ path: '/product/create' }));
+        });
 
 
         var titleBarOptions = {

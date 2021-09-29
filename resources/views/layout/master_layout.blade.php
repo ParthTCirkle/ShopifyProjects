@@ -1,3 +1,13 @@
+{{-- @php
+    $condition = [
+        ['status','ACTIVE'],
+        ['type','RECURRING']
+    ];
+    $shop = Auth::user();
+    $activePlan = $shop->charge()->where($condition)->latest()->first();
+    return $activePlan;
+@endphp --}}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
+    {{-- {{ dd(Auth::user())}} --}}
     <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@6.6.0/dist/styles.css" />
     @stack('page_css')
 </head>
@@ -19,6 +30,12 @@
     <script src="https://unpkg.com/@shopify/app-bridge@2"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+        var test = {!! Auth::user()->plan_id ?? 0 !!}
+        //     console.log(test);
+        // if (test == 0)
+        // {
+        //     console.log('hello');
+        // }
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr("content"),
@@ -52,62 +69,77 @@
         // }
 
 
-        // function offer() {
-        //     if (charge == 0) {
-        //         app.dispatch(Redirect.toApp({
-        //             path: '/plan/list'
-        //         }));
-        //     }
-        // }
+        function offer(path) {
+            if (test == 0)
+            {
+                return '/plan/index';
+            }
+            else
+            {
+                return path;
+            }
+        }
 
-        const dashboard = AppLink.create(app, {
+        const dashboard = AppLink.create(app,{
             label: 'Dashboard',
-            destination: '/',
+            destination: offer('/'),
         });
 
-        const products = AppLink.create(app, {
+        const plan = AppLink.create(app, {
+            label: 'Plan',
+            destination: offer('/plan/index'),
+        });
+
+        const product = AppLink.create(app, {
             label: 'Product',
-            destination: '/product/index',
+            destination: offer('/product/index'),
         });
 
-        const discounts = AppLink.create(app, {
+        const customer = AppLink.create(app, {
+            label: 'Customer',
+            destination: offer('/customer/index'),
+        });
+
+        const discount = AppLink.create(app, {
             label: 'Discount',
-            destination: '/discount/index',
+            destination: offer('/discount/index'),
         });
 
         // create NavigationMenu with no active links
         const navigationMenu = NavigationMenu.create(app, {
-            items: [dashboard, products, discounts],
+            items: [dashboard, plan, product, customer, discount],
         });
 
 
-        // var back = Button.create(app, {label: 'Home'});
-        // back.subscribe(Button.Action.CLICK, function() {
+        // var dashboard = Button.create(app, {label: 'Dashboard'});
+        // dashboard.subscribe(Button.Action.CLICK, function() {
+        //     offer();
         //     app.dispatch(Redirect.toApp({path: '/'}));
+        // });
+
+        // var plan = Button.create(app, {label: 'Plan'});
+        // plan.subscribe(Button.Action.CLICK, function() {
+        //     offer();
+        //     app.dispatch(Redirect.toApp({path: '/plan/index'}));
         // });
 
         // var product = Button.create(app, {label: 'Product'});
         // product.subscribe(Button.Action.CLICK, function() {
-        //     // offer();
+        //     offer();
         //     app.dispatch(Redirect.toApp({path: '/product/index'}));
         // });
 
+        // var discount = Button.create(app, {label: 'Discount'});
+        // discount.subscribe(Button.Action.CLICK, function() {
+        //     offer();
+        //     app.dispatch(Redirect.toApp({path: '/discount/index'}));
+        // });
         // var customer = Button.create(app, {label: 'Customer'});
         // customer.subscribe(Button.Action.CLICK, function() {
         //     // offer();
         //     app.dispatch(Redirect.toApp({path: '/customer/view'}));
         // });
 
-        // var discount = Button.create(app, {label: 'Discount'});
-        // discount.subscribe(Button.Action.CLICK, function() {
-        //     // offer();
-        //     // if (charge.name == "Basic Plan") {
-        //     //     app.dispatch(Redirect.toApp({
-        //     //         path: '/plan/list'
-        //     //     }));
-        //     // }
-        //     app.dispatch(Redirect.toApp({path: '/discount/view'}));
-        // });
 
         // var installation = Button.create(app, {label: 'Installation'});
         // installation.subscribe(Button.Action.CLICK, function() {
@@ -140,7 +172,7 @@
             // title: 'Test App 5',
             buttons: {
                 // primary:
-                secondary: [],
+                // secondary: [dashboard, plan, product, discount],
             },
         };
         var myTitleBar = TitleBar.create(app, titleBarOptions);
