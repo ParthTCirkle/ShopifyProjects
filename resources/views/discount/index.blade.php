@@ -215,20 +215,20 @@
 
 @push('page_script')
     <script>
-        var createProduct = Button.create(app, {label: 'Create'});
-        createProduct.subscribe(Button.Action.CLICK, function() {
-            app.dispatch(Redirect.toApp({path: '/product/create'}));
-        });
+        // var createProduct = Button.create(app, {label: 'Create'});
+        // createProduct.subscribe(Button.Action.CLICK, function() {
+        //     app.dispatch(Redirect.toApp({path: '/product/create'}));
+        // });
 
-        var syncProduct = Button.create(app, {label: 'Sync Product'});
-        syncProduct.subscribe(Button.Action.CLICK, function() {
-            app.dispatch(Redirect.toApp({path: '/product/sync'}));
-        });
+        // var syncProduct = Button.create(app, {label: 'Sync Product'});
+        // syncProduct.subscribe(Button.Action.CLICK, function() {
+        //     app.dispatch(Redirect.toApp({path: '/product/sync'}));
+        // });
 
-        const breadcrumb = Button.create(app, { label: 'Product' });
-        breadcrumb.subscribe(Button.Action.CLICK, () => {
-            app.dispatch(Redirect.toApp({ path: '/product/create' }));
-        });
+        // const breadcrumb = Button.create(app, { label: 'Product' });
+        // breadcrumb.subscribe(Button.Action.CLICK, () => {
+        //     app.dispatch(Redirect.toApp({ path: '/product/create' }));
+        // });
 
 
         var titleBarOptions = {
@@ -264,9 +264,8 @@
             $("#addDiscountCondition").click(function(){
                 $( "#discountConditionTable tr" ).each(function( i,el )
                 {
-                    if ($( el ).find(".conditionType").val() == null || $( el ).find(".search").val() == "")
+                    if ($( el ).find(".conditionType").val() == null || $( el ).find(".conditionType").val() == "" || $( el ).find(".search").val().trim() == "")
                     {
-
                         var toastOptions = {
                             message: 'Select condition type/provide search content...',
                             duration: 5000,
@@ -274,7 +273,6 @@
                         };
                         var toastError = Toast.create(app, toastOptions);
                         toastError.dispatch(Toast.Action.SHOW);
-                        // toastr.error("Select condition type/provide search content...");
                         counter = 0;
                         return false;
                     }
@@ -300,23 +298,43 @@
             $("#getProduct").click(function(){
                 var checked = $('input[name="condition"]:checked').val();
                 var string = "";
+                var counter = 0;
                 $( "#discountConditionTable tr" ).each(function( i,el )
                 {
-                    string += $( el ).find(".conditionType").val() +':'+ $( el ).find(".search").val()+' '+ checked + ' ';
+                    if ($( el ).find(".conditionType").val() == null || $( el ).find(".conditionType").val() == "" || $( el ).find(".search").val().trim() == "")
+                    {
+                        var toastOptions = {
+                            message: 'Select condition type/provide search content...',
+                            duration: 5000,
+                            isError: true,
+                        };
+                        var toastError = Toast.create(app, toastOptions);
+                        toastError.dispatch(Toast.Action.SHOW);
+                        counter = 0;
+                        return false;
+                    }
+                    else
+                    {
+                        counter = 1;
+                        string += $( el ).find(".conditionType").val() +':'+ $( el ).find(".search").val()+' '+ checked + ' ';
+                    }
                 });
                 var lastIndex = string.lastIndexOf(" "+checked);
                 string = string.substring(0, lastIndex);
                 // console.log(string);
 
-                var productPicker = ResourcePicker.create(app, {
-                    resourceType: ResourcePicker.ResourceType.Product,
-                    options: {
-                        selectMultiple: true,
-                        initialQuery: string
-                    }
-                });
+                if(counter == 1)
+                {
+                    var productPicker = ResourcePicker.create(app, {
+                        resourceType: ResourcePicker.ResourceType.Product,
+                        options: {
+                            selectMultiple: true,
+                            initialQuery: string
+                        }
+                    });
 
-                productPicker.dispatch(ResourcePicker.Action.OPEN);
+                    productPicker.dispatch(ResourcePicker.Action.OPEN);
+                }
             });
         });
 

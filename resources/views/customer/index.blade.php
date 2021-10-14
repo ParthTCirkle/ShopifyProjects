@@ -10,7 +10,6 @@
                         <h2 class="Polaris-Heading">Welcome to Customer Index</h2>
                     </div>
                     <div class="Polaris-Card__Section">
-                        {{-- <p>View a summary of your online store’s performance.</p> --}}
                         <p>You are: {{ $shopDomain ?? Auth::user()->name }}</p>
                     </div>
                 </div>
@@ -35,7 +34,7 @@
                                     <div class="Polaris-Page-Header__TitleWrapper">
                                         <div>
                                             <div class="Polaris-Header-Title__TitleAndSubtitleWrapper">
-
+                                                {{-- Navigation  --}}
                                                 <div>
                                                     <nav aria-label="Pagination">
                                                         <div class="Polaris-ButtonGroup" data-buttongroup-segmented="false">
@@ -56,7 +55,7 @@
                                                             @endif
                                                             <div class="Polaris-ButtonGroup__Item">
                                                                 <div aria-live="polite">
-                                                                    <span class=""> Results : <b> {{collect($customers)->count()}} </b></span>
+                                                                    <span class=""> Results : {{collect($customers)->count()}} Out of {{$totalCustomer}}</span>
                                                                 </div>
                                                             </div>
                                                             @if ($next)
@@ -78,8 +77,6 @@
                                                     </nav>
                                                     <div id="PolarisPortalsContainer"></div>
                                                 </div>
-
-                                                {{-- <h1 class="Polaris-Header-Title">Sales by product</h1> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -87,8 +84,7 @@
                             </div>
                             <div class="Polaris-Page__Content">
                                 <div class="Polaris-Card">
-
-
+                                    {{-- Datatable --}}
                                     <div class="">
                                         <div class="Polaris-DataTable__Navigation">
                                             <button class="Polaris-Button Polaris-Button--disabled Polaris-Button--plain Polaris-Button--iconOnly" aria-label="Scroll table left one column" type="button" disabled="">
@@ -146,48 +142,6 @@
                             </div>
                             <div id="PolarisPortalsContainer"></div>
                         </div>
-
-
-
-                        {{-- <div>
-                            <nav aria-label="Pagination">
-                                <div class="Polaris-ButtonGroup Polaris-ButtonGroup--segmented" data-buttongroup-segmented="true">
-                                    @if ($previous)
-                                    <div class="Polaris-ButtonGroup__Item">
-                                        <button id="previousURL" onclick=" window.location.href = '{{ route('product.index', ['link'=>$previous]) }}'" class="Polaris-Button Polaris-Button--outline Polaris-Button--iconOnly" aria-label="Previous" type="button">
-                                            <span class="Polaris-Button__Content">
-                                                <span class="Polaris-Button__Icon">
-                                                    <span class="Polaris-Icon">
-                                                        <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
-                                                            <path d="M12 16a.997.997 0 0 1-.707-.293l-5-5a.999.999 0 0 1 0-1.414l5-5a.999.999 0 1 1 1.414 1.414L8.414 10l4.293 4.293A.999.999 0 0 1 12 16z"></path>
-                                                        </svg>
-                                                    </span>
-                                                </span>
-                                            </span>
-                                        </button>
-                                    </div>
-                                    @endif
-
-                                    @if ($next)
-                                    <div class="Polaris-ButtonGroup__Item">
-                                        <button id="nextURL" onclick=" window.location.href = '{{ route('product.index', ['link'=>$next]) }}'" class="Polaris-Button Polaris-Button--outline Polaris-Button--iconOnly" aria-label="Next" type="button">
-                                            <span class="Polaris-Button__Content">
-                                                <span class="Polaris-Button__Icon">
-                                                    <span class="Polaris-Icon">
-                                                        <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
-                                                            <path d="M8 16a.999.999 0 0 1-.707-1.707L11.586 10 7.293 5.707a.999.999 0 1 1 1.414-1.414l5 5a.999.999 0 0 1 0 1.414l-5 5A.997.997 0 0 1 8 16z"></path>
-                                                        </svg>
-                                                    </span>
-                                                </span>
-                                            </span>
-                                        </button>
-                                    </div>
-                                    @endif
-                                </div>
-                            </nav>
-                            <div id="PolarisPortalsContainer"></div>
-                        </div> --}}
-
                     </div>
                 </div>
             </div>

@@ -279,7 +279,7 @@ return [
     |
     */
 
-    'billing_enabled' => (bool) env('SHOPIFY_BILLING_ENABLED', 1),
+    'billing_enabled' => (bool) env('SHOPIFY_BILLING_ENABLED',0),
 
     /*
     |--------------------------------------------------------------------------
@@ -288,7 +288,7 @@ return [
     |
     | Allow a shop use the app in "freemium" mode.
     | Shop will get a `freemium` flag on their record in the table.
-    |   
+    |
     */
 
     'billing_freemium_enabled' => (bool) env('SHOPIFY_BILLING_FREEMIUM_ENABLED', false),

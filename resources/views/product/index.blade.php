@@ -34,8 +34,7 @@
                                     <div class="Polaris-Page-Header__TitleWrapper">
                                         <div>
                                             <div class="Polaris-Header-Title__TitleAndSubtitleWrapper">
-
-                                                <div>
+                                                <div style="display: inline-block; margin-top: -10px">
                                                     <nav aria-label="Pagination">
                                                         <div class="Polaris-ButtonGroup" data-buttongroup-segmented="false">
                                                             @if ($previous)
@@ -55,7 +54,7 @@
                                                             @endif
                                                             <div class="Polaris-ButtonGroup__Item">
                                                                 <div aria-live="polite">
-                                                                    <span class=""> Results : <b> {{collect($products)->count()}} </b></span>
+                                                                    <span class=""> Results : {{collect($products)->count()}} Out of {{$totalProducts}} </span>
                                                                 </div>
                                                             </div>
                                                             @if ($next)
@@ -78,7 +77,42 @@
                                                     <div id="PolarisPortalsContainer"></div>
                                                 </div>
 
-                                                {{-- <h1 class="Polaris-Header-Title">Sales by product</h1> --}}
+                                                {{-- <div style="inline-block; float: right; margin-top: -10px;">
+                                                    <button class="Polaris-Button Polaris-Button--primary" type="button">
+                                                        <span class="Polaris-Button__Content">
+                                                            <span class="Polaris-Button__Text">Sync</span>
+                                                        </span>
+                                                    </button>
+                                                    <div id="PolarisPortalsContainer"></div>
+                                                </div> --}}
+
+                                                {{-- <div style="inline-block; float: right; margin-top: -10px; margin-right: 20px">
+                                                    <button class="Polaris-Button" type="button">
+                                                        <span class="Polaris-Button__Content">
+                                                            <span class="Polaris-Button__Text"> Add product</span>
+                                                        </span>
+                                                    </button>
+                                                    <div id="PolarisPortalsContainer"></div>
+                                                </div> --}}
+                                                {{-- search bar --}}
+                                                {{-- <div class="Polaris-Connected" style="width: 30%; display: inline-block; float: right; margin-top: -10px; margin-right:20px;">
+                                                    <div class="Polaris-Connected__Item Polaris-Connected__Item--primary">
+                                                        <div class="Polaris-TextField">
+                                                            <div class="Polaris-TextField__Prefix" id="PolarisTextField16Prefix">
+                                                                <span class="Polaris-Filters__SearchIcon">
+                                                                    <span class="Polaris-Icon">
+                                                                        <span class="Polaris-VisuallyHidden"></span>
+                                                                        <svg viewBox="0 0 20 20" class="Polaris-Icon__Svg" focusable="false" aria-hidden="true">
+                                                                            <path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm9.707 4.293-4.82-4.82A5.968 5.968 0 0 0 14 8 6 6 0 0 0 2 8a6 6 0 0 0 6 6 5.968 5.968 0 0 0 3.473-1.113l4.82 4.82a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414z"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                            <input id="PolarisTextField16" placeholder="Filter products" autocomplete="off" class="Polaris-TextField__Input Polaris-TextField__Input--hasClearButton" aria-labelledby="PolarisTextField16Label PolarisTextField16Prefix" aria-invalid="false" value="">
+                                                            <div class="Polaris-TextField__Backdrop"></div>
+                                                        </div>
+                                                    </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -86,7 +120,6 @@
                             </div>
                             <div class="Polaris-Page__Content">
                                 <div class="Polaris-Card">
-
 
                                     <div class="">
                                         <div class="Polaris-DataTable__Navigation">
@@ -148,7 +181,7 @@
                                                                     {{$product->title}}
 
                                                                 </td>
-                                                                <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--numeric">${{$product->vendor}}</td>
+                                                                <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--numeric">{{$product->vendor}}</td>
                                                                 <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--numeric">{{$product->product_type}}</td>
                                                                 <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--verticalAlignTop Polaris-DataTable__Cell--numeric">
                                                                     @if ($product->status == 'active')

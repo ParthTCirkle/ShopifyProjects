@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -11,13 +12,10 @@ class HomeController extends Controller
         return view('login');
     }
 
-    // public function loginPost(Request $request)
-    // {
-    //     return redirect("https://testapp5.snigre.com/?shop=test-cirke.myshopify.com")
-    // }
-
     public function index()
     {
+        // dump(session()->all());
+        // dd(Auth::user());
         return view('welcome');
     }
 

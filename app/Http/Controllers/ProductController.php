@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SyncProductJob;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -15,7 +16,6 @@ class ProductController extends Controller
 {
     public function index($link = null)
     {
-        // dump($link);
         $shop = Auth::user();
         $limit = 250;
         $response = $shop->api()->rest('GET', '/admin/api/2021-07/products.json', ['limit' => $limit, 'page_info' => $link]);
@@ -23,15 +23,64 @@ class ProductController extends Controller
         {
             abort(401);
         }
-        // dump($response['status']);
         $next = $response['link']['next'] ?? null;
-        // dump($response['link']['next']);
         $previous = $response['link']['previous'] ?? null;
-        // dump($response['link']['previous']);
         $products = $response['body']['products'];
-        // dd($response['body']['products']);
 
-        return view('product.index', compact('next', 'previous', 'products'));
+        $response = $shop->api()->rest('GET', '/admin/api/2021-07/products/count.json');
+        $totalProducts = $response['body']['count'];
+
+        return view('product.index', compact('next', 'previous', 'products', 'totalProducts'));
+
+
+        // $allStores = User::select('*')->whereNotIn('password',[' '])->get();
+        // // $allStores = User::where()
+        // foreach($allStores as $store)
+        // {
+        //     // dump($store);
+        //     $pageInfo = "";
+        //     $lastPage = false;
+        //     $totalProduct = 0;
+        //     while (!$lastPage)
+        //     {
+        //         $url = "https://".$store->name.config('constant.shopify_api_version')."/products.json?page_info=".$pageInfo."&limit=250";
+        //         $getAllProducts = Http::withHeaders([
+        //                 'Accept'                    =>  'application/json',
+        //                 'Content-Type'              =>  'application/json',
+        //                 'X-Shopify-Access-Token'    =>  $store->password,
+        //             ])->get($url);
+        //         $apiResponseHeaders = $getAllProducts->headers();
+        //         if (collect($getAllProducts['products'])->count() == 250)
+        //         {
+        //             $pageInfo = Str::between($apiResponseHeaders['Link'][0], 'page_info=', '>; rel="next"');
+        //         }
+        //         else
+        //         {
+        //             $lastPage = true;
+        //         }
+        //         foreach($getAllProducts['products'] as $product)
+        //         {
+        //             // dd($product['tags'].", new tag");
+        //             $updatedProductData = [
+        //                 'product' => [
+        //                     'id'            =>  $product['id'],
+        //                     'tags'         =>   $product['tags'].", cirkle",
+        //                 ],
+        //             ];
+        //             $url = "https://".$store->name.config('constant.shopify_api_version')."/products/".$product['id'].".json";
+        //             // dd($url);
+        //             $success = Http::withHeaders([
+        //                 'Accept'                    =>  'application/json',
+        //                 'Content-Type'              =>  'application/json',
+        //                 'X-Shopify-Access-Token'    =>  $store->password,
+        //             ])->put($url,$updatedProductData);
+        //         }
+        //     }
+        // }
+        // dd('10');
+
+        // dd("hello");
+
 
 
         // dd($shop);
@@ -71,16 +120,6 @@ class ProductController extends Controller
         // dd($result);
     }
 
-    public function next(Request $request)
-    {
-        dd($request->all());
-    }
-
-    public function previous(Request $request)
-    {
-        dd($request->all());
-    }
-
     public function create()
     {
         return view('product.create');
@@ -96,7 +135,7 @@ class ProductController extends Controller
 
         SyncProductJob::dispatch($shop);
 
-        return redirect(route('product.index'));
+        // return redirect(route('product.index'));
         // dd('start');
     }
 
