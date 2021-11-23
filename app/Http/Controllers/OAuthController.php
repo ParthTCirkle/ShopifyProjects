@@ -52,6 +52,10 @@ class OAuthController extends Controller
 
     public function redirectUri(Request $request)
     {
+        return $request->all();
+        // dd("hello");
+        dd($request->all());
+
         $latestAppVersion = config('constant.app_version');
         $this->shop = $request->get('shop');
         $hmac = $request->get('hmac');

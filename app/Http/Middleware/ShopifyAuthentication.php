@@ -12,6 +12,8 @@ class ShopifyAuthentication
 {
     public function handle(Request $request, Closure $next)
     {
+        // dd($request->header('code'));
+        dd($request->all());
         $hmac = $request->get('hmac');
         $requestParams = array_diff_key($request->all(), ['hmac' => '']);
         ksort($requestParams);

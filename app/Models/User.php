@@ -74,52 +74,52 @@ class User extends Authenticatable
         return $this->hasOne(Charge::class);
     }
 
-    public function setPasswordAttribute($value)
-    {
-        if ($value == null)
-        {
-            $this->attributes['password'] = $value;
-        }
-        else
-        {
-            $length = env('ADD_STRING_LENGTH');
-            $positions = explode(",",env('POSITION'));
-            info('original:'.$value);
+    // public function setPasswordAttribute($value)
+    // {
+    //     if ($value == null)
+    //     {
+    //         $this->attributes['password'] = $value;
+    //     }
+    //     else
+    //     {
+    //         $length = env('ADD_STRING_LENGTH');
+    //         $positions = explode(",",env('POSITION'));
+    //         info('original:'.$value);
 
-            $value = Str::after($value, 'shpat_');
-            foreach($positions as $position)
-            {
-                $randomString = substr(str_shuffle('abcdef0123456789'), 0, $length);
-                $value = substr_replace( $value, $randomString, $position, 0 );
-            }
-            $value = 'shpat_'.$value;
+    //         $value = Str::after($value, 'shpat_');
+    //         foreach($positions as $position)
+    //         {
+    //             $randomString = substr(str_shuffle('abcdef0123456789'), 0, $length);
+    //             $value = substr_replace( $value, $randomString, $position, 0 );
+    //         }
+    //         $value = 'shpat_'.$value;
 
-            info('encrypted:'.$value);
-            $this->attributes['password'] = $value;
-        }
-    }
+    //         info('encrypted:'.$value);
+    //         $this->attributes['password'] = $value;
+    //     }
+    // }
 
-    public function getPasswordAttribute($value)
-    {
-        if ( $value == null )
-        {
-            return $value;
-        }
-        else
-        {
-            $length = env('ADD_STRING_LENGTH');
-            $positions = explode( ",", env('POSITION') );
-            $positions = array_reverse($positions);
+    // public function getPasswordAttribute($value)
+    // {
+    //     if ( $value == null )
+    //     {
+    //         return $value;
+    //     }
+    //     else
+    //     {
+    //         $length = env('ADD_STRING_LENGTH');
+    //         $positions = explode( ",", env('POSITION') );
+    //         $positions = array_reverse($positions);
 
-            $value = Str::after($value, 'shpat_');
-            foreach($positions as $position)
-            {
-                $value = substr_replace( $value, '', $position, $length );
-            }
-            $value = 'shpat_'.$value;
+    //         $value = Str::after($value, 'shpat_');
+    //         foreach($positions as $position)
+    //         {
+    //             $value = substr_replace( $value, '', $position, $length );
+    //         }
+    //         $value = 'shpat_'.$value;
 
-            info('decrypted : '.$value);
-            return $value;
-        }
-    }
+    //         info('decrypted : '.$value);
+    //         return $value;
+    //     }
+    // }
 }
